@@ -18,32 +18,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.marvel_app_android.ui.data.HeroesData
 import com.example.marvel_app_android.ui.navigation.Destination
-import dev.chrisbanes.snapper.ExperimentalSnapperApi
-import dev.chrisbanes.snapper.LazyListSnapperLayoutInfo
 
 
-@OptIn(ExperimentalSnapperApi::class)
 @Composable
 fun HeroCard(
     name: String,
-    HeroPainter: String?,
+    heroPainter: String,
     navController: NavHostController,
     index: Int,
-    layoutInfo: LazyListSnapperLayoutInfo,
-) {
 
-    val offset: Int = layoutInfo.currentItem?.offset ?: -1
-
-    val size: Int = HeroesData.heros.size - 1
-
-    val modifier: Modifier
-
-
-
-
-
+    ) {
     Box(
         modifier =
         Modifier
@@ -62,7 +47,7 @@ fun HeroCard(
         contentAlignment = Alignment.BottomCenter,
     )
     {
-        ImageLoad(link = HeroPainter!!.replace("http", "https"))
+        ImageLoad(link = heroPainter)
 
         Box(
             modifier = Modifier

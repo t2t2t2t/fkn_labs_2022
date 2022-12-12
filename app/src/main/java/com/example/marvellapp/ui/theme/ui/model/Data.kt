@@ -1,14 +1,19 @@
-package com.example.marvel_app.ui.theme.ui.model
+package com.example.marvel_app_android.api.model
+
+
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Data (
-
-  @field:Json(name = "offset"  ) var offset  : String?            = null,
-  @field:Json(name = "limit"   ) var limit   : String?            = null,
-  @field:Json(name = "total"   ) var total   : String?            = null,
-  @field:Json(name = "count"   ) var count   : String?            = null,
-  @field:Json(name = "results" ) var results : List<Results> = listOf()
-
+data class Data(
+    @Json(name = "count")
+    val count: Int,
+    @Json(name = "limit")
+    val limit: Int,
+    @Json(name = "offset")
+    val offset: Int,
+    @Json(name = "results")
+    val heroes: List<HeroDto>,
+    @Json(name = "total")
+    val total: Int
 )

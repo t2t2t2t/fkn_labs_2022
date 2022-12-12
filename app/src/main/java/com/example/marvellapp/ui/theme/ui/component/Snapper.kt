@@ -18,18 +18,20 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.marvel_app_android.data.Hero
 import com.example.marvel_app_android.ui.viewModels.MainViewModel
-import com.example.marvellapp.ui.theme.ui.data.HeroDataList.heroMutableList
 import dev.chrisbanes.snapper.*
 
 
 @OptIn(ExperimentalSnapperApi::class)
 @Composable
-fun Snapper(navController: NavHostController,model: MainViewModel = viewModel()) {
+fun Snapper(navController: NavHostController, heroes: List<Hero>, model: MainViewModel = viewModel()) {
     val lazyListState = rememberLazyListState()
+
     val colorState = remember {
         mutableStateOf(Color(0xFFBB1818))
     }
+
     val layoutInfo: LazyListSnapperLayoutInfo = rememberLazyListSnapperLayoutInfo(lazyListState)
     val indexLazyList = remember {
         mutableStateOf(layoutInfo.currentItem?.index)
@@ -41,74 +43,63 @@ fun Snapper(navController: NavHostController,model: MainViewModel = viewModel())
 
         if (layoutInfo.currentItem?.index != null) {
             val index = layoutInfo.currentItem?.index ?: 0
-            val offset: Int = layoutInfo.currentItem?.offset ?: -1
             var colorIndex=index%7
-
-          //  if (index == heroMutableList.size -2 && offset<0){
-           //     colorIndex=index+1
-           // }
 
             model.setColor(colorIndex)
             model.snapedItem = colorIndex
         }
     }
 
-        BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentAlignment = Alignment.Center,
+    ) {
 
+        LazyRow(
+            state = lazyListState,
+            flingBehavior = rememberSnapperFlingBehavior(lazyListState = lazyListState,
+                snapOffsetForItem = SnapOffsets.Center,),
+            contentPadding = PaddingValues( 10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
 
+            itemsIndexed(heroes) {index,  hero ->
+                Layout(
+                    content = {
+                        Box(
+                            Modifier.fillMaxSize()
+                        ) {
+                            HeroCard(
+                                name = hero.name,
+                                heroPainter = hero.path,
+                                index = hero.id,
+                                navController = navController,
 
-            ,
-            contentAlignment = Alignment.Center,
-
-
-            ) {
-
-            LazyRow(
-                state = lazyListState,
-                flingBehavior = rememberSnapperFlingBehavior(lazyListState = lazyListState,
-                    snapOffsetForItem = SnapOffsets.Center,),
-                contentPadding = PaddingValues( 10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-
-                itemsIndexed(heroMutableList) {index,  hero ->
-                    Layout(
-                        content = {
-                            Box(
-                                Modifier.fillMaxSize()
-                            ) {
-                                HeroCard(
-                                    name = hero.name,
-                                    HeroPainter = hero.painter,
-                                    index = hero.id.toInt(),
-                                    navController = navController,
-                                    layoutInfo = layoutInfo
                                 )
-                            }
-
-                        },
-                        measurePolicy = { measurables, constraints ->
-                            val placeable = measurables.first().measure(constraints)
-                            val maxWidthInPx = maxWidth.roundToPx()
-                            val itemWidth = placeable.width
-                            val startSpace =
-                                if (index == 0) (maxWidthInPx - itemWidth) / 2 else 0
-                            val endSpace =
-                                if (index == heroMutableList.size-1) (maxWidthInPx - itemWidth) / 2 else 0
-                            val width = startSpace + placeable.width + endSpace
-                            layout(width, placeable.height) {
-                                val x = if (index == 0) startSpace else 0
-                                placeable.place(x, 0)
-                            }
                         }
-                    )
-                }
 
+                    },
+                    measurePolicy = { measurables, constraints ->
+                        val placeable = measurables.first().measure(constraints)
+                        val maxWidthInPx = maxWidth.roundToPx()
+                        val itemWidth = placeable.width
+                        val startSpace =
+                            if (index == 0) (maxWidthInPx - itemWidth) / 2 else 0
+                        val endSpace =
+                            if (index == heroes.size-1) (maxWidthInPx - itemWidth) / 2 else 0
+                        val width = startSpace + placeable.width + endSpace
+                        layout(width, placeable.height) {
+                            val x = if (index == 0) startSpace else 0
+                            placeable.place(x, 0)
+                        }
+                    }
+                )
             }
+
         }
+    }
 
 
 }

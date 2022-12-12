@@ -1,11 +1,14 @@
-package com.example.marvel_app.ui.theme.ui.model
+package com.example.marvel_app_android.api.model
+
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-
-data class Thumbnail (
-
-  @field:Json(name = "path"      ) var path      : String? = null,
-  @field:Json(name = "extension" ) var extension : String? = null
-
+@JsonClass(generateAdapter = true)
+data class Thumbnail(
+    @Json(name = "extension")
+    val extension: String,
+    @Json(name = "path")
+    val path: String
 )
+

@@ -1,4 +1,4 @@
-package com.example.marvel_app.ui.theme.ui.data
+package com.example.marvel_app_android.ui.theme.ui.data
 
 import androidx.compose.ui.graphics.Color
 

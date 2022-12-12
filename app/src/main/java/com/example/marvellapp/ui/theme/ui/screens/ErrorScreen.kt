@@ -1,4 +1,4 @@
-package com.example.marvel_app.ui.theme.ui.screens
+package com.example.marvel_app_android.ui.theme.ui.screens
 
 import android.os.Process
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ErrorScreen(){
     Text(
-        text = "Нет подключения к интернету, не удалось загрузить данные!",
+        text = "Не удалось загрузить данные!",
         modifier = Modifier.padding(
             start = 30.dp,
             top = 40.dp),
