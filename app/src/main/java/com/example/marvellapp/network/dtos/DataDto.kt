@@ -1,0 +1,19 @@
+package com.example.marvel_app_android.api.model
+
+
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class DataDto(
+    @Json(name = "count")
+    val count: Int,
+    @Json(name = "limit")
+    val limit: Int,
+    @Json(name = "offset")
+    val offset: Int,
+    @Json(name = "results")
+    val heroes: List<HeroDto>,
+    @Json(name = "total")
+    val total: Int
+)
